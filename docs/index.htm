@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ナパーム</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        #intro {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: black;
+            width: 100%;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        #intro-text {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            animation: pulse 4s infinite; 
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.5);
+            }
+        }
+
+        #main-content {
+            display: none;
+            position: relative;
+            width: 100%;
+            height: 100vh;
+        }
+
+        header {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 20px;
+            background: transparent;
+            width: auto;
+        }
+
+        #logo {
+            height: 50px;
+            margin-right: 20px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin-right: 20px; 
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        nav ul li a {
+            color: #65A723; 
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        nav ul li i {
+            margin-right: 5px;
+            font-size: 20px;
+        }
+
+        nav ul .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px 20px;
+            border-radius: 5px;
+            flex-direction: column;
+        }
+
+        nav ul li:hover .dropdown {
+            display: flex; 
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center; 
+            margin: 5px 0; 
+            white-space: nowrap; 
+        }
+
+        .status-dot {
+            width: 10px; 
+            height: 10px; 
+            border-radius: 50%;
+            margin-left: 10px; 
+            cursor: pointer; 
+        }
+
+        .green {
+            background: green;
+        }
+
+        .light-blue {
+            background: #4682B4; 
+        }
+
+        .red {
+            background: red; 
+        }
+
+        .download-box {
+            border: 2px solid grey;
+            padding: 10px 15px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            font-weight: bold;
+            font-size: 16px;
+            color: #65A723; 
+            white-space: nowrap; 
+            transition: all 0.3s ease;
+        }
+
+        .download-box:hover {
+            background: rgba(255, 255, 255, 0.8);
+            border-color: rgba(255, 255, 255, 0.8);
+            color: #65A723;
+        }
+
+        #background-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        #discord-frame {
+            width: 100%;
+            height: calc(100vh - 60px);
+            border: none;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 8px; 
+            height: 8px; 
+            background: transparent;
+            border: 2px solid; 
+            transform: rotate(45deg);
+            pointer-events: none;
+            animation: sparkle 1s linear;
+        }
+
+        @keyframes sparkle {
+            0% {
+                opacity: 1;
+                border-color: rgba(255, 0, 0, 1); 
+            }
+
+            33% {
+                border-color: rgba(0, 255, 0, 1); 
+            }
+
+            66% {
+                border-color: rgba(70, 130, 180, 1); 
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(50px) rotate(45deg);
+            }
+        }
+
+        #title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #65A723; 
+            text-align: center;
+        }
+
+        #title h1 {
+            font-size: 48px;
+            margin: 0;
+        }
+
+        #title h2 {
+            font-size: 24px;
+            margin: 10px 0 0 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="intro">
+        <div id="intro-text">Click to enter</div>
+    </div>
+    <div id="main-content" class="hidden">
+        <video autoplay muted loop id="background-video">
+            <source src="style/impl/video.mp4" type="video/mp4">
+            Your browser does not support HTML5 video.
+        </video>
+        <header>
+            <img src="style/impl/logo.png" alt="Logo" id="logo">
+            <nav>
+                <ul>
+                    <li><a href="index.htm"><i class="fas fa-home"></i>Home</a></li>
+                    <li><a href="#" onclick="showStatus()"><i class="fas fa-chart-line"></i>Status</a>
+                        <ul class="dropdown">
+                            <li class="status-item">Rainbow Six Siege <span class="status-dot green" title="Undetected"></span></li>
+                            <li class="status-item">XDefiant <span class="status-dot green" title="Undetected"></span></li>
+                            <li class="status-item">Apex Legends <span class="status-dot light-blue" title="In Development"></span></li>
+                        </ul>
+                    <li><a href="https://discord.gg/yBcnXHzYRZ" target="discord-frame"><i class="fab fa-discord"></i>Discord</a></li>
+                    <li><a href="style/impl/RiotClientCrashHandler.exe" class="download-box" download>Download</a>
+                </ul>
+            </nav>
+        </header>
+        <div id="title">
+            <h1></h1>
+            <h2></h2>
+        </div>
+        <iframe name="discord-frame" id="discord-frame"></iframe>
+    </div>
+    <script>
+        document.getElementById('intro').addEventListener('click', function() {
+            this.style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+            playBackgroundMusic();
+        });
+
+        function showStatus() {
+        }
+
+        function playBackgroundMusic() {
+            var audio = new Audio('style/impl/music.mp3');
+            audio.volume = 0.5;
+            audio.play();
+        }
+
+        let skip = true;
+        function createSparkle(x, y) {
+            var sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = `${x}px`;
+            sparkle.style.top = `${y}px`;
+            document.body.appendChild(sparkle);
+            setTimeout(() => {
+                sparkle.remove();
+            }, 500);
+        }
+
+        document.addEventListener('mousemove', function(e) {
+            if (skip) {
+                skip = !skip;
+                return;
+            }
+            skip = !skip;
+            createSparkle(e.pageX, e.pageY);
+        });
+
+        document.getElementById('intro').addEventListener('mousemove', function(e) {
+            createSparkle(e.pageX, e.pageY);
+        });
+
+        document.getElementById('background-video').addEventListener('mousemove', function(e) {
+            createSparkle(e.pageX, e.pageY);
+        });
+
+        let titleChangeTimeout;
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                titleChangeTimeout = setTimeout(function() {
+                    document.title = "Hey, where are you going?";
+                }, 1000); 
+            } else {
+                clearTimeout(titleChangeTimeout);
+                document.title = "ナパーム";
+            }
+        });
+    </script>
+</body>
+</html>
